@@ -4,12 +4,7 @@ export const db = database.database;
 export const GeoPoint = database.GeoPoint;
 export const Time = database.time;
 
-export function create({
-  objectName,
-  objectId = null,
-  objectData = {},
-  createdByUid = null,
-}) {
+export function create({ objectName, objectId = null, objectData = {}, createdByUid = null }) {
   return new Promise((resolve, reject) => {
     database
       .createObject({ objectName, objectId, objectData, createdByUid })
@@ -99,11 +94,7 @@ export function update({
   });
 }
 
-export function remove({
-  objectName = null,
-  objectId = null,
-  deletedByUid = null,
-}) {
+export function remove({ objectName = null, objectId = null, deletedByUid = null }) {
   return new Promise((resolve, reject) => {
     database
       .deleteObject({ objectName, objectId, deletedByUid })
@@ -129,18 +120,18 @@ export function restore({ objectName = null, objectId = null }) {
   });
 }
 
-export function read({
-  objectName = null,
-  objectIds = [],
-  dataCategory = "Private0",
-}) {
+export function read({ objectName = null, objectIds = [], dataCategory = "Private0" }) {
+  console.log("name+id+datacat: " + objectName + dataCategory);
+  console.log("objid: " + JSON.stringify(objectIds));
   return new Promise((resolve, reject) => {
     database
       .readObjects({ objectName, objectIds, dataCategory })
       .then((result) => {
+        console.log("result: " + JSON.stringify(result));
         return resolve(result);
       })
       .catch((error) => {
+        console.log("error read: " + error);
         reject(error);
       });
   });

@@ -4,8 +4,7 @@ const firestore = admin.firestore;
 
 export const database = firestore();
 
-export const GeoPoint = (latitude, longitude) =>
-  new firestore.GeoPoint(latitude, longitude);
+export const GeoPoint = (latitude, longitude) => new firestore.GeoPoint(latitude, longitude);
 export const time = firestore.Timestamp;
 
 export function readData({ ref }) {
@@ -43,12 +42,7 @@ export function writeData({ ref, data }) {
   });
 }
 
-export function updateData({
-  ref = null,
-  data = {},
-  arrayUnionData = {},
-  arrayRemoveData = {},
-}) {
+export function updateData({ ref = null, data = {}, arrayUnionData = {}, arrayRemoveData = {} }) {
   Object.keys(arrayUnionData).forEach((key) => {
     return (data = {
       ...data,
@@ -76,11 +70,7 @@ export function updateData({
   });
 }
 
-export function readObjects({
-  objectName = null,
-  objectIds = [],
-  dataCategory = "",
-}) {
+export function readObjects({ objectName = null, objectIds = [], dataCategory = "" }) {
   return new Promise((resolve, reject) => {
     const objectPromises = [];
 
@@ -98,9 +88,7 @@ export function readObjects({
 }
 
 export function batchWrite(
-  dataArray = [
-    { operation: "set", ref: null, data: null, option: { merga: false } },
-  ]
+  dataArray = [{ operation: "set", ref: null, data: null, option: { merga: false } }]
 ) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -149,17 +137,13 @@ export function createObjectsWithRelation({
         objectId = firestore().collection(`${objectName}Packaging0`).doc().id;
         objectIds[index] = objectId;
       }
-  
-      const objectPackagingRef = firestore().doc(
-        `${objectName}Packaging0/${objectId}`
-      );
+
+      const objectPackagingRef = firestore().doc(`${objectName}Packaging0/${objectId}`);
       const objectPublicRef = firestore().doc(`${objectName}Public0/${objectId}`);
-      const objectPrivateRef = firestore().doc(
-        `${objectName}Private0/${objectId}`
-      );
-  
+      const objectPrivateRef = firestore().doc(`${objectName}Private0/${objectId}`);
+
       let { packaging, shared, confidential } = objectData;
-  
+
       packaging = {
         ...packaging,
         id: objectId,
@@ -170,41 +154,41 @@ export function createObjectsWithRelation({
       };
       shared = { ...shared, ...packaging };
       confidential = { ...confidential, ...shared };
-  
+
       batchDataArray.push({
         operation: "set",
         ref: objectPackagingRef,
         data: packaging,
         option: { merge: true },
       });
-  
+
       batchDataArray.push({
         operation: "set",
         ref: objectPublicRef,
         data: shared,
         option: { merge: true },
       });
-  
+
       batchDataArray.push({
         operation: "set",
         ref: objectPrivateRef,
         data: confidential,
         option: { merge: true },
       });
-  
+
       relatedParties.forEach((party) => {
         const { partyName, partyId, partyData } = party;
-  
+
         if (!partyName || !partyId) return null;
-  
+
         const partyRef = firestore().doc(
           `${partyName}Packaging0/${partyId}/${objectName}Packaging0/${objectId}`
         );
-  
+
         const objectRef = firestore().doc(
           `${objectName}Packaging0/${objectId}/${partyName}Packaging0/${partyId}`
         );
-  
+
         const subjectObjectRelation = objectData.subjectObjectRelation;
 
         batchDataArray.push({
@@ -213,7 +197,7 @@ export function createObjectsWithRelation({
           data: { ...packaging, subjectObjectRelation },
           option: { merge: true },
         });
-  
+
         batchDataArray.push({
           operation: "set",
           ref: objectRef,
@@ -251,13 +235,9 @@ export function createObjectWithRelation({
       objectId = firestore().collection(`${objectName}Packaging0`).doc().id;
     }
 
-    const objectPackagingRef = firestore().doc(
-      `${objectName}Packaging0/${objectId}`
-    );
+    const objectPackagingRef = firestore().doc(`${objectName}Packaging0/${objectId}`);
     const objectPublicRef = firestore().doc(`${objectName}Public0/${objectId}`);
-    const objectPrivateRef = firestore().doc(
-      `${objectName}Private0/${objectId}`
-    );
+    const objectPrivateRef = firestore().doc(`${objectName}Private0/${objectId}`);
 
     let { packaging, shared, confidential } = objectData;
 
@@ -348,13 +328,9 @@ export function createObject({
     if (!objectId) {
       objectId = firestore().collection(`${objectName}Packaging0`).doc().id;
     }
-    const objectPackagingRef = firestore().doc(
-      `${objectName}Packaging0/${objectId}`
-    );
+    const objectPackagingRef = firestore().doc(`${objectName}Packaging0/${objectId}`);
     const objectPublicRef = firestore().doc(`${objectName}Public0/${objectId}`);
-    const objectPrivateRef = firestore().doc(
-      `${objectName}Private0/${objectId}`
-    );
+    const objectPrivateRef = firestore().doc(`${objectName}Private0/${objectId}`);
 
     let { packaging, shared, confidential } = objectData;
 
@@ -461,11 +437,9 @@ export function createSubjectObjectRelation({
         })
       );
 
-      const [
-        subjectPackagings,
-        objectPackagings,
-        directObjectPackagings,
-      ] = await Promise.all(readPromises);
+      const [subjectPackagings, objectPackagings, directObjectPackagings] = await Promise.all(
+        readPromises
+      );
 
       subjectIds.forEach((subjectId) => {
         objectPackagings.forEach((objectPackaging, index) => {
@@ -648,7 +622,7 @@ export function deleteObject({
   objectName = null,
   objectId = null,
   deletedByUid = null,
-  additionUpdate = null
+  additionUpdate = null,
 }) {
   return new Promise((resolve, reject) => {
     const objectPrivateRef = `${objectName}Private0/${objectId}`;
@@ -719,7 +693,7 @@ export function fanOutObject({
       // const fanOutBatch = firestore().batch();
 
       const { packaging, shared, confidential } = objectAttributes;
-
+      console.log("packaging: " + JSON.stringify(packaging));
       const changedObjectCategories = modifiedObjectDataCategories({
         objectBeforeData,
         objectAfterData,
@@ -731,9 +705,7 @@ export function fanOutObject({
       const batchDataArray = [];
 
       if (isSharedChanged || isPackagingChanged) {
-        const objectPublicRef = firestore().doc(
-          `${objectName}Public0/${objectId}`
-        );
+        const objectPublicRef = firestore().doc(`${objectName}Public0/${objectId}`);
         // fanOutBatch.set(objectPublicRef, shared);
         batchDataArray.push({
           operation: "set",
@@ -746,9 +718,7 @@ export function fanOutObject({
       if (isPackagingChanged) {
         const targetPromises = [];
 
-        const objectPackagingRef = firestore().doc(
-          `${objectName}Packaging0/${objectId}`
-        );
+        const objectPackagingRef = firestore().doc(`${objectName}Packaging0/${objectId}`);
         // fanOutBatch.set(objectPackagingRef, packaging);
 
         batchDataArray.push({
@@ -761,9 +731,7 @@ export function fanOutObject({
         fanOutTargetObjectNames.forEach((targetObjectName) => {
           targetPromises.push(
             firestore()
-              .collection(
-                `${objectName}Packaging0/${objectId}/${targetObjectName}Packaging0`
-              )
+              .collection(`${objectName}Packaging0/${objectId}/${targetObjectName}Packaging0`)
               .select()
               .get()
           );
@@ -771,14 +739,12 @@ export function fanOutObject({
 
         const fanOutTargetObjectsSnapshot = await Promise.all(targetPromises);
 
-        const fanOutTargetObjectIdSet = fanOutTargetObjectsSnapshot.map(
-          (objectSnapshot) => {
-            const objectIds = objectSnapshot.docs.map((doc) => {
-              return doc.id;
-            });
-            return objectIds;
-          }
-        );
+        const fanOutTargetObjectIdSet = fanOutTargetObjectsSnapshot.map((objectSnapshot) => {
+          const objectIds = objectSnapshot.docs.map((doc) => {
+            return doc.id;
+          });
+          return objectIds;
+        });
 
         fanOutTargetObjectNames.forEach((targetObjectName, index) => {
           fanOutTargetObjectIdSet[index].forEach((targetObjectId) => {
@@ -813,10 +779,7 @@ export function modifiedObjectDataCategories({
   objectAttributes = {},
 }) {
   const updatedFields = Object.keys(objectAfterData).map((fieldKey) => {
-    if (
-      JSON.stringify(objectAfterData[fieldKey]) !==
-      JSON.stringify(objectBeforeData[fieldKey])
-    ) {
+    if (JSON.stringify(objectAfterData[fieldKey]) !== JSON.stringify(objectBeforeData[fieldKey])) {
       return fieldKey;
     }
     return null;
@@ -857,9 +820,8 @@ export function distributeObject({
   parties = [{ partyName: null, partyId: null }],
 }) {
   return new Promise((resolve, reject) => {
-    
     if (!objectId) {
-      return null
+      return null;
     }
 
     let { packaging, shared, confidential } = objectData;
