@@ -1,26 +1,27 @@
 import { auth } from "../../utils/helper";
 
-export function getUserByUid({uid = null}){
+export function getUserByUid({ uid = null }) {
+  console.log("index");
   return new Promise((resolve, reject) => {
     return auth
-    .getUserByUid({uid})
-      .then(user => {
+      .getUserByUid({ uid })
+      .then((user) => {
         return resolve(user);
       })
-      .catch(error => {
+      .catch((error) => {
         return reject(error);
       });
   });
 }
 
-export function getUserByEmail({email = null}){
+export function getUserByEmail({ email = null }) {
   return new Promise((resolve, reject) => {
     return auth
-    .getUserByEmail({email})
-      .then(user => {
+      .getUserByEmail({ email })
+      .then((user) => {
         return resolve(user);
       })
-      .catch(error => {
+      .catch((error) => {
         return reject(error);
       });
   });
@@ -33,7 +34,7 @@ export function setCustomUserClaims({ uid, customClaims }) {
       .then(({ status }) => {
         return resolve({ status });
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -46,7 +47,7 @@ export function updateCustomUserClaims({ uid, customClaims }) {
       .then((status) => {
         return resolve(status);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -59,7 +60,7 @@ export function createUser({
   password = null,
   displayName = undefined,
   photoURL = undefined,
-  disabled = false
+  disabled = false,
 }) {
   return new Promise((resolve, reject) => {
     return auth
@@ -70,33 +71,29 @@ export function createUser({
         password,
         displayName,
         photoURL,
-        disabled
+        disabled,
       })
-      .then(user => {
+      .then((user) => {
         return resolve(user);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 }
 
-export function updateUser(uid,{
-  email = null,
-  displayName = undefined,
-  photoURL = undefined
-}) {
+export function updateUser(uid, { email = null, displayName = undefined, photoURL = undefined }) {
   return new Promise((resolve, reject) => {
     return auth
-      .updateUser(uid,{
+      .updateUser(uid, {
         email,
         displayName,
         photoURL,
       })
-      .then(user => {
+      .then((user) => {
         return resolve(user);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });

@@ -1,25 +1,26 @@
 import * as httpUtils from "../../utils/http";
 
 export function validation({ target = {}, reference = {} }) {
-  if ( Array.isArray(target) && target.length !== 0 ) {
-    target.forEach( (field,index) =>{
-        if (typeof field !== typeof reference[0]) {
-            if (typeof field === "string" && reference[0] === null) {
-              return null;
-            }
-            throw new Object({
-              code: httpUtils.FunctionsErrorCode.failedPrecondition,
-              message: `${field} invalid data type.`
-            });
-          } else if ( field && typeof (field) === "object") {
-            validation({ target: field, reference: reference[0] });
-          }
+  console.log("data");
+  if (Array.isArray(target) && target.length !== 0) {
+    target.forEach((field, index) => {
+      if (typeof field !== typeof reference[0]) {
+        if (typeof field === "string" && reference[0] === null) {
           return null;
-    })
-  } else if( target && typeof( target ) === "object" ) {
-    Object.keys(target).forEach(field => {
-      const targetKey = target[field]
-      const referenceKey = reference[field]
+        }
+        throw new Object({
+          code: httpUtils.FunctionsErrorCode.failedPrecondition,
+          message: `${field} invalid data type.`,
+        });
+      } else if (field && typeof field === "object") {
+        validation({ target: field, reference: reference[0] });
+      }
+      return null;
+    });
+  } else if (target && typeof target === "object") {
+    Object.keys(target).forEach((field) => {
+      const targetKey = target[field];
+      const referenceKey = reference[field];
 
       if (typeof targetKey !== typeof referenceKey) {
         if (typeof targetKey === "string" && referenceKey === null) {
@@ -27,9 +28,9 @@ export function validation({ target = {}, reference = {} }) {
         }
         throw new Object({
           code: httpUtils.FunctionsErrorCode.failedPrecondition,
-          message: `${field} invalid data type.`
+          message: `${field} invalid data type.`,
         });
-      } else if ( targetKey && typeof( targetKey ) === "object") {
+      } else if (targetKey && typeof targetKey === "object") {
         validation({ target: targetKey, reference: referenceKey });
       }
       return null;
@@ -37,44 +38,44 @@ export function validation({ target = {}, reference = {} }) {
   }
 }
 
-export function objectNotExist({message = 'Object does not found'}){
+export function objectNotExist({ message = "Object does not found" }) {
   throw new Object({
     code: httpUtils.FunctionsErrorCode.notFound,
-    message
+    message,
   });
 }
 
-export function objectExist({message = 'Object already existed'}){
+export function objectExist({ message = "Object already existed" }) {
   throw new Object({
     code: httpUtils.FunctionsErrorCode.alreadyExists,
-    message
+    message,
   });
 }
 
-export function objectExhausted({message = 'Number of object already exceed fixed value.'}){
+export function objectExhausted({ message = "Number of object already exceed fixed value." }) {
   throw new Object({
     code: httpUtils.FunctionsErrorCode.resourceExhausted,
-    message
+    message,
   });
 }
 
-export function invalidArgument({message = 'Invalid Argument.'}){
+export function invalidArgument({ message = "Invalid Argument." }) {
   throw new Object({
     code: httpUtils.FunctionsErrorCode.invalidArgument,
-    message
+    message,
   });
 }
 
-export function unavailable({message = 'Currently unavailable.'}){
+export function unavailable({ message = "Currently unavailable." }) {
   throw new Object({
     code: httpUtils.FunctionsErrorCode.unavailable,
-    message
+    message,
   });
 }
 
-export function deadlineExceeded({message = 'Deadline exceeded.'}){
+export function deadlineExceeded({ message = "Deadline exceeded." }) {
   throw new Object({
     code: httpUtils.FunctionsErrorCode.deadlineExceeded,
-    message
+    message,
   });
 }

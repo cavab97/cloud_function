@@ -3,25 +3,25 @@ import { database } from "../../utils/helper";
 const objectName = "system";
 
 export function create({ objectId = null, objectData }) {
+  console.log("system");
   return new Promise((resolve, reject) => {
     database
       .createObject({ objectName, objectId, objectData })
-      .then(result => {
+      .then((result) => {
         return resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 }
-
 
 export function update({
   objectId = null,
   objectData = {},
   objectArrayUnionData = {},
   objectArrayRemoveData = {},
-  updatedByUid = null
+  updatedByUid = null,
 }) {
   return new Promise((resolve, reject) => {
     database
@@ -31,12 +31,12 @@ export function update({
         objectData,
         objectArrayUnionData,
         objectArrayRemoveData,
-        updatedByUid
+        updatedByUid,
       })
-      .then(result => {
+      .then((result) => {
         return resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -48,7 +48,7 @@ export function createRelation({
   objectIds = [],
   directObjectName = null,
   directObjectIds = [],
-  subjectObjectRelation = {}
+  subjectObjectRelation = {},
 }) {
   return new Promise((resolve, reject) => {
     database
@@ -59,12 +59,12 @@ export function createRelation({
         objectIds,
         directObjectName,
         directObjectIds,
-        subjectObjectRelation
+        subjectObjectRelation,
       })
-      .then(result => {
+      .then((result) => {
         return resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -75,10 +75,9 @@ export function fanOutToRelation({
   objectBeforeData = {},
   objectAfterData = {},
   objectAttributes = {},
-  fanOutTargetObjectNames = []
+  fanOutTargetObjectNames = [],
 }) {
   return new Promise((resolve, reject) => {
-
     database
       .fanOutObject({
         objectName,
@@ -86,12 +85,12 @@ export function fanOutToRelation({
         objectBeforeData,
         objectAfterData,
         objectAttributes,
-        fanOutTargetObjectNames
+        fanOutTargetObjectNames,
       })
-      .then(result => {
+      .then((result) => {
         return resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -101,10 +100,10 @@ export function readSystem({ objectIds = [] }) {
   return new Promise((resolve, reject) => {
     database
       .readObjects({ objectName, objectIds, dataCategory: "Private0" })
-      .then(result => {
+      .then((result) => {
         return resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });

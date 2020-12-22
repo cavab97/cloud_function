@@ -1,21 +1,19 @@
 import * as functions from "firebase-functions";
 
-
-
 export function successResponse({
   objectName = null,
   ids = [],
   action = null,
-  message = "Successed"
+  message = "Successed",
 }) {
   const status = "Successed";
-
+  console.log("successResponse");
   return {
     objectName,
     ids,
     status,
     action: `${action} ${objectName}`,
-    message
+    message,
   };
 }
 
@@ -24,7 +22,7 @@ export function failedResponse({
   objectName = null,
   ids = [],
   action = null,
-  message = "Failed"
+  message = "Failed",
 }) {
   const status = "Failed";
 
@@ -33,7 +31,7 @@ export function failedResponse({
     ids,
     status,
     action: `${action} ${objectName}`,
-    message
+    message,
   });
 }
 
@@ -54,5 +52,5 @@ export const FunctionsErrorCode = {
   internal: "internal",
   unavailable: "unavailable",
   dataLoss: "data-loss",
-  unauthenticated: "unauthenticated"
+  unauthenticated: "unauthenticated",
 };

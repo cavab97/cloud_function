@@ -8,6 +8,7 @@ export const GeoPoint = (latitude, longitude) => new firestore.GeoPoint(latitude
 export const time = firestore.Timestamp;
 
 export function readData({ ref }) {
+  console.log("readData");
   return new Promise((resolve, reject) => {
     firestore()
       .doc(ref)

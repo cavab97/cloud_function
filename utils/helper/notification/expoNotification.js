@@ -66,13 +66,13 @@ export function validateToken(
   }
 ) {
   const unregisterToken = [];
-
-  if(notificationResult.errors){
+  console.log("validateToken");
+  if (notificationResult.errors) {
     throw notificationResult;
   }
 
   if (!Array.isArray(notificationResult.data) || notificationResult.data.length === 0) {
-    throw new Object({code:"Notification error", message: "No Responses Return."});
+    throw new Object({ code: "Notification error", message: "No Responses Return." });
   }
 
   notificationResult.data.forEach((result, index) => {

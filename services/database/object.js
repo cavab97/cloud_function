@@ -5,6 +5,7 @@ export const GeoPoint = database.GeoPoint;
 export const Time = database.time;
 
 export function create({ objectName, objectId = null, objectData = {}, createdByUid = null }) {
+  console.log("object");
   return new Promise((resolve, reject) => {
     database
       .createObject({ objectName, objectId, objectData, createdByUid })

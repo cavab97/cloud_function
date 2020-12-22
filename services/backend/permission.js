@@ -2,6 +2,7 @@ import * as authService from "../auth";
 import * as httpUtils from "../../utils/http";
 
 export function identityChecking({ uid = null, role = null }) {
+  console.log("permission");
   return new Promise(async (resolve, reject) => {
     try {
       if (!uid) {

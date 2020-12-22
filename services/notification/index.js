@@ -16,6 +16,7 @@ export function sendToNotificationServer(
     expiration: null,
   }
 ) {
+  console.log("index");
   return new Promise((resolve, reject) => {
     notification
       .sendToNotificationServer(message)
@@ -28,4 +29,4 @@ export function sendToNotificationServer(
   });
 }
 
-export default { sendToNotificationServer }
+export default { sendToNotificationServer };
