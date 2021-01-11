@@ -1,11 +1,12 @@
-export default function attributes ({
+export default function attributes({
   role = {
     absoluteDeveloper: false,
     developer: false,
     director: false,
     executive: false,
     admin: false,
-    user: true
+    merchant: false,
+    user: true,
   },
   accessLevel = 50,
   plan = null,
@@ -17,7 +18,7 @@ export default function attributes ({
     line2: null,
     postcode: null,
     state: null,
-    country: null
+    country: null,
   },
   dateOfBirth = null,
   gender = null,
@@ -33,8 +34,9 @@ export default function attributes ({
   created = { at: null, by: null },
   deleted = { at: null, by: null },
   updated = { at: null, by: null },
-  id = null
-}){
+  shopIds = [null],
+  id = null,
+}) {
   const packaging = {
     id,
     name,
@@ -42,14 +44,15 @@ export default function attributes ({
     photoURL,
     notificationToken,
     role,
+    shopIds,
     created,
     deleted,
-    updated
+    updated,
   };
 
   const shared = {
     ...packaging,
-    gender
+    gender,
   };
 
   const confidential = {
@@ -65,7 +68,7 @@ export default function attributes ({
     accessLevel,
     plan,
     disabled,
-    emailVerified
+    emailVerified,
   };
 
   const receivableState = {
@@ -79,10 +82,12 @@ export default function attributes ({
     phoneNumber,
     notificationToken,
     photoURL,
-  }
+    role,
+    shopIds,
+  };
 
   const manualUpdatableState = {
-    confidential:{
+    confidential: {
       displayName,
       name,
       address,
@@ -91,13 +96,20 @@ export default function attributes ({
       gender,
       email,
       photoURL,
-    }
-  }
+      shopIds,
+    },
+  };
 
   const notificationTokenState = {
-    confidential:{
-    }
-  }
+    confidential: {},
+  };
 
-  return { packaging, shared, confidential, receivableState, manualUpdatableState, notificationTokenState };
+  return {
+    packaging,
+    shared,
+    confidential,
+    receivableState,
+    manualUpdatableState,
+    notificationTokenState,
+  };
 }
