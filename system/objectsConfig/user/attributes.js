@@ -8,6 +8,7 @@ export default function attributes({
     merchant: false,
     user: true,
   },
+  password = null,
   accessLevel = 50,
   plan = null,
   disabled = false,
@@ -86,6 +87,11 @@ export default function attributes({
     shopIds,
   };
 
+  const userReceivableState = {
+    email,
+    password
+  };
+
   const manualUpdatableState = {
     confidential: {
       displayName,
@@ -111,5 +117,6 @@ export default function attributes({
     receivableState,
     manualUpdatableState,
     notificationTokenState,
+    userReceivableState
   };
 }
